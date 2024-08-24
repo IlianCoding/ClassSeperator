@@ -19,14 +19,15 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: '8'  # Match this with your project's Java version
 
       - name: Set up Android SDK and Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 34
+          api-level: 34  # Match this with your project's compileSdk and targetSdk
           target: android-34
           arch: x86_64
+          distribution: "google"  # Required input for the Android emulator
           script: ./gradlew assembleDebug testDebugUnitTest
 
       - name: Build and Test
