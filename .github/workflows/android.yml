@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '8'
-          distribution: 'adoptopenjdk'
+          distribution: 'temurin'
 
       - name: Set up Android SDK and Emulator
         uses: reactivecircus/android-emulator-runner@v2
