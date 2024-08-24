@@ -1,0 +1,33 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+
+      - name: Set up Android SDK
+        uses: reactivecircus/android-emulator-runner@v3
+        with:
+          api-level: 34
+          target: android-34
+          arch: x86_64
+          script: ./gradlew assembleDebug testDebugUnitTest
+
+      - name: Build and Test
+        run: ./gradlew build
