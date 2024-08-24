@@ -1,7 +1,8 @@
 package com.app.classseperation.data
 
 import com.app.classseperation.model.Student
-import java.util.*
+import java.time.LocalDate
+import java.time.Month
 
 interface SeperatorRepository{
     suspend fun getStudents(): List<Student>
@@ -17,7 +18,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "Smith",
                 nationality = "USA",
                 image = "No Image",
-                age = Date(1995 - 1900, 5, 15),
+                age = LocalDate.of(1995, Month.JUNE, 15),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = false
             ),
@@ -27,7 +28,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "Johnson",
                 nationality = "Canada",
                 image = "No Image",
-                age = Date(1994 - 1900, 8, 20),
+                age = LocalDate.of(1994, Month.SEPTEMBER, 20),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = true
             ),
@@ -35,9 +36,9 @@ class SeperatorClassRepository : SeperatorRepository {
                 id = "3",
                 firstName = "Charlie",
                 lastName = "Brown",
-                nationality = "UK",
+                nationality = "Canada",
                 image = "No Image",
-                age = Date(1996 - 1900, 1, 10),
+                age = LocalDate.of(1996, Month.FEBRUARY, 10),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = false
             ),
@@ -47,7 +48,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "Davis",
                 nationality = "Germany",
                 image = "No Image",
-                age = Date(1997 - 1900, 10, 5),
+                age = LocalDate.of(1997, Month.NOVEMBER, 5),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = false
             ),
@@ -57,7 +58,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "White",
                 nationality = "France",
                 image = "No Image",
-                age = Date(1993 - 1900, 3, 25),
+                age = LocalDate.of(1993, Month.APRIL, 25),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = true
             ),
@@ -67,7 +68,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "Miller",
                 nationality = "Australia",
                 image = "No Image",
-                age = Date(1998 - 1900, 7, 12),
+                age = LocalDate.of(1998, Month.AUGUST, 12),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = false
             ),
@@ -77,7 +78,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "Moore",
                 nationality = "Japan",
                 image = "No Image",
-                age = Date(1992 - 1900, 9, 18),
+                age = LocalDate.of(1992, Month.OCTOBER, 18),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = false
             ),
@@ -87,7 +88,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "Young",
                 nationality = "China",
                 image = "No Image",
-                age = Date(1991 - 1900, 4, 30),
+                age = LocalDate.of(1991, Month.MAY, 30),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = true
             ),
@@ -95,9 +96,9 @@ class SeperatorClassRepository : SeperatorRepository {
                 id = "9",
                 firstName = "Isaac",
                 lastName = "King",
-                nationality = "India",
+                nationality = "USA",
                 image = "No Image",
-                age = Date(1990 - 1900, 11, 8),
+                age = LocalDate.of(1990, Month.DECEMBER, 8),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = false
             ),
@@ -107,7 +108,7 @@ class SeperatorClassRepository : SeperatorRepository {
                 lastName = "Lee",
                 nationality = "Brazil",
                 image = "No Image",
-                age = Date(1989 - 1900, 6, 3),
+                age = LocalDate.of(1989, Month.JULY, 3),
                 lastSittingSpot = 0,
                 hasSpecialNeeds = false
             )
