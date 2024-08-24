@@ -28,7 +28,24 @@ jobs:
           api-level: 34
           target: google_apis
           arch: x86_64
+          force-avd-creation: true
+          emulator-boot-timeout: 1200
+          ram-size: 2048
+          sdcard-path-or-size: 100M
+          emulator-options: -no-snapshot-load -no-boot-anim
           script: ./gradlew assembleDebug testDebugUnitTest
 
-      - name: Build and Test
-        run: ./gradlew build
+      - name: Build the app
+        run: ./gradlew assembleDebug
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Run instrumented tests
+        run: ./gradlew connectedDebugAndroidTest
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: app/build/reports/
