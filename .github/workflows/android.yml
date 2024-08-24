@@ -21,8 +21,8 @@ jobs:
         with:
           java-version: '8'
 
-      - name: Set up Android SDK
-        uses: reactivecircus/android-emulator-runner@v3
+      - name: Set up Android SDK and Emulator
+        uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           target: android-34
