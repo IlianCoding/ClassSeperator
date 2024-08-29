@@ -68,10 +68,7 @@ dependencies {
     // Kotlin extensions
 
     // Retrofit and serialization
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.serialization.converter)
     implementation(libs.kotlin.serialization.json)
-    implementation(libs.okhttp)
 
     // Hilt
     kapt(libs.hilt.compiler)

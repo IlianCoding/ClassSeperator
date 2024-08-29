@@ -1,18 +1,20 @@
 package com.app.assignmentandroidapplication.model
 
-import com.app.assignmentandroidapplication.model.configuration.layoutStrategy.LayoutStrategy
+import com.app.assignmentandroidapplication.model.configuration.layoutType.LayoutType
 import com.app.assignmentandroidapplication.model.configuration.sortingOptions.DifferentSortingOptions
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Classroom (
     val id : String,
     val name : String,
-    var layoutStrategy: LayoutStrategy,
+    var layoutType: LayoutType,
     val desks : List<Desk>,
     var students : MutableList<Student>,
     var sortingOptions: DifferentSortingOptions = DifferentSortingOptions()
 ){
-    fun updateLayoutStrategy(strategy: LayoutStrategy){
-        layoutStrategy = strategy
+    fun updateLayoutStrategy(type: LayoutType){
+        layoutType = type
     }
 
     fun updateSortingOptions(options: DifferentSortingOptions){

@@ -10,18 +10,19 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 
-class StudentAssignmentService(
+class StudentService(
     private val layoutStrategies: Map<LayoutType, LayoutStrategy>
 ) {
     private val logger: LogHelper = LogHelper(this::class.java.simpleName)
 
-    suspend fun assignStudents(classroom: Classroom, layoutType: LayoutType, sortingOptions: DifferentSortingOptions, groupSize: Int? = null): String {
+    suspend fun assignStudents(classroom: Classroom, sortingOptions: DifferentSortingOptions, groupSize: Int? = null): String {
         logger.d("Starting the student assignment.")
 
         return withContext(Dispatchers.IO) {
             try {
                 withTimeout(120_000L) {
-                    val strategy = layoutStrategies[layoutType]
+                    // Use the map to get the correct strategy
+                    val strategy = layoutStrategies[classroom.layoutType]
                         ?: return@withTimeout "Layout strategy not found."
 
                     if (classroom.students.size > classroom.desks.size) {

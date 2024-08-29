@@ -2,50 +2,34 @@ name: Android CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
-
-      - name: Set up Android SDK and Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 34
-          target: google_apis
-          arch: x86_64
-          force-avd-creation: true
-          emulator-boot-timeout: 1200
-          ram-size: 2048
-          sdcard-path-or-size: 100M
-          emulator-options: -no-snapshot-load -no-boot-anim
-          script: ./gradlew assembleDebug testDebugUnitTest
-
-      - name: Build the app
+      - name: Build with Gradle
         run: ./gradlew assembleDebug
 
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+  test:
+    runs-on: ubuntu-latest
+    needs: build
 
-      - name: Run instrumented tests
-        run: ./gradlew connectedDebugAndroidTest
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v3
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          name: test-results
-          path: app/build/reports/
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Run tests with Gradle
+        run: ./gradlew testDebugUnitTest

@@ -1,5 +1,8 @@
 package com.app.assignmentandroidapplication.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Desk(
     val id : String,
     val position : Position,
