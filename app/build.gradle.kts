@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.kapt)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.compose.compiler)
+    id("jacoco")
 }
 
 android {
@@ -32,6 +33,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            isTestCoverageEnabled = true
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -53,6 +57,39 @@ android {
     }
 }
 
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.withType<Test>().configureEach {
+    configure<JacocoTaskExtension> {
+        isIncludeNoLocationClasses = true
+    }
+}
+
+tasks.register("jacocoTestReport", JacocoReport::class) {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val fileFilter = listOf("**/R.class", "**/R$*.class", "**/BuildConfig.*", "**/Manifest*.*")
+    val debugTree = fileTree("${buildDir}/intermediates/javac/debug") {
+        exclude(fileFilter)
+    }
+    val kotlinDebugTree = fileTree("${buildDir}/tmp/kotlin-classes/debug") {
+        exclude(fileFilter)
+    }
+    sourceDirectories.setFrom(files(listOf("src/main/java", "src/main/kotlin")))
+    classDirectories.setFrom(files(listOf(debugTree, kotlinDebugTree)))
+
+    executionData.setFrom(fileTree(buildDir) {
+        setIncludes(listOf("jacoco/testDebugUnitTest.exec"))
+    })
+}
+
 dependencies {
     // Base UI compose tools
     implementation(libs.androidx.core.ktx)
@@ -64,8 +101,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
-
-    // Kotlin extensions
 
     // Retrofit and serialization
     implementation(libs.kotlin.serialization.json)

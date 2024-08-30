@@ -41,3 +41,12 @@ jobs:
         run: chmod +x ./gradlew
       - name: Run tests with Gradle
         run: ./gradlew testDebugUnitTest --stacktrace
+
+      - name: Generate code coverage report
+        run: ./gradlew jacocoTestReport --stacktrace
+
+      - name: Upload Code Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: build/reports/jacoco/test/html

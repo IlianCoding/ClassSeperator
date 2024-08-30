@@ -12,6 +12,7 @@ navigationCompose = "2.7.7"
 mockito = "5.12.0"
 robolectric = "4.13"
 gson = "2.10.1"
+jacoco = "0.8.8"
 
 # retrofit and serialization
 serializationJson = "1.6.3"
