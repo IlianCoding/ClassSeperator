@@ -37,27 +37,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Set JDK for Gradle
-        run: echo "org.gradle.java.home=/usr/lib/jvm/java-17-temurin" >> ~/.gradle/gradle.properties
-
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
       - name: Run tests with Gradle
         run: ./gradlew testDebugUnitTest --stacktrace
-
-      - name: Generate code coverage report
-        run: ./gradlew jacocoTestReport --stacktrace
-
-      - name: Upload Code Coverage Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: code-coverage-report
-          path: build/reports/jacoco/test/html
