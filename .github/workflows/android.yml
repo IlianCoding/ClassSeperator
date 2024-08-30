@@ -11,12 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Clean workspace
+        run: rm -rf *
       - uses: actions/checkout@v3
+      - name: List files in workspace
+        run: ls -l
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew assembleDebug --stacktrace
 
@@ -32,6 +38,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x ./gradlew
       - name: Run tests with Gradle
         run: ./gradlew testDebugUnitTest --stacktrace
