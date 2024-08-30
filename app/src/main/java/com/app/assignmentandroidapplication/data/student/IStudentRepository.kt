@@ -1,5 +1,6 @@
 package com.app.assignmentandroidapplication.data.student
 
+import android.graphics.Bitmap
 import com.app.assignmentandroidapplication.model.Student
 
 interface IStudentRepository {
@@ -8,4 +9,6 @@ interface IStudentRepository {
     fun updateStudent(student: Student)
     fun deleteStudent(id: String)
     fun getAllStudents(): List<Student>
+    fun saveStudentImage(student: Student, image: Bitmap)
+    fun loadStudentImage(student: Student): Bitmap?
 }

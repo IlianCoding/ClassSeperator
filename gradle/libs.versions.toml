@@ -11,6 +11,7 @@ composeBom = "2024.08.00"
 navigationCompose = "2.7.7"
 mockito = "5.12.0"
 robolectric = "4.13"
+gson = "2.10.1"
 
 # retrofit and serialization
 serializationJson = "1.6.3"
@@ -40,7 +41,9 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt"}
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose"}
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito"}
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "5.1.0" }
 robolectric-core = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

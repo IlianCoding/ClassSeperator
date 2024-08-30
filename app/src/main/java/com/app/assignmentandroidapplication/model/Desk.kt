@@ -1,25 +1,30 @@
 package com.app.assignmentandroidapplication.model
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Desk(
     val id : String,
     val position : Position,
-    var assignedStudent: Student? = null,
-    var previousStudent: Student? = null
+    var assignedStudentId: String? = null,
+    var previousStudentId: String? = null
 ){
     fun isAvailable(): Boolean {
-        return assignedStudent == null
+        return assignedStudentId == null
     }
 
     fun assignStudent(student: Student){
-        previousStudent = assignedStudent
-        assignedStudent = student
+        previousStudentId = assignedStudentId
+        assignedStudentId = student.id
     }
 
     fun clearAssignment(){
-        previousStudent = assignedStudent
-        assignedStudent = null
+        previousStudentId = assignedStudentId
+        assignedStudentId = null
+    }
+
+    fun getAssignedStudent(studentMap: Map<String, Student>): Student? {
+        return assignedStudentId?.let { studentMap[it] }
+    }
+
+    fun getPreviousStudent(studentMap: Map<String, Student>): Student? {
+        return previousStudentId?.let { studentMap[it] }
     }
 }

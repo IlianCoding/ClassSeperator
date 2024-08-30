@@ -1,4 +1,4 @@
-package com.app.assignmentandroidapplication.ui.states
+package com.app.assignmentandroidapplication.ui.state
 
 import com.app.assignmentandroidapplication.model.Classroom
 

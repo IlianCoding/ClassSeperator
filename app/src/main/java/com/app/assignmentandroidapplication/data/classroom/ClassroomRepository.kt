@@ -2,66 +2,95 @@ package com.app.assignmentandroidapplication.data.classroom
 
 import android.content.Context
 import com.app.assignmentandroidapplication.model.Classroom
-import kotlinx.serialization.encodeToString
+import com.app.assignmentandroidapplication.utils.JsonWriterReader
+import com.app.assignmentandroidapplication.utils.LogHelper
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.json.Json
-import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 class ClassroomRepository @Inject constructor(
     private val context: Context,
-    private val jsonSerializer: Json
-) : IClassroomRepository{
-
-    private val jsonFileName = "assigningClassroom.json"
-    private val jsonFile by lazy { File(context.filesDir, jsonFileName) }
+    private val jsonWriterReader: JsonWriterReader,
+    private val logger: LogHelper = LogHelper("ClassroomRepository")
+) : IClassroomRepository {
+    private val fileName = "classroomSeperator.json"
+    private val gson = Gson()
 
     override fun saveClassroom(classroom: Classroom) {
-        val classrooms = loadAllClassrooms().toMutableList()
-        classrooms.removeAll { it.id == classroom.id }
+        logger.d("Saving classroom: ${classroom.name}")
+
+        val data = jsonWriterReader.readFromFile(fileName).toMutableMap()
+        val classroomsJson = data["classrooms"] as? String
+        val classroomsType = object : TypeToken<MutableList<Classroom>>() {}.type
+        val classrooms: MutableList<Classroom> = gson.fromJson(classroomsJson, classroomsType) ?: mutableListOf()
+
         classrooms.add(classroom)
-        saveAllClassrooms(classrooms)
+        data["classrooms"] = gson.toJson(classrooms)
+        jsonWriterReader.writeToFile(fileName, data)
     }
 
     override fun loadClassroom(id: String): Classroom? {
-        return loadAllClassrooms().find { it.id == id }
+        logger.d("Loading classroom with id: $id")
+
+        val data = jsonWriterReader.readFromFile(fileName)
+        val classroomsJson = data["classrooms"] as? String
+        val classroomsType = object : TypeToken<List<Classroom>>() {}.type
+        val classrooms: List<Classroom> = gson.fromJson(classroomsJson, classroomsType) ?: emptyList()
+
+        return classrooms.find { it.id == id }
     }
 
     override fun updateClassroom(classroom: Classroom) {
-        val allClassrooms = loadAllClassrooms().toMutableList()
-        val index = allClassrooms.indexOfFirst { it.id == classroom.id }
-        if (index != -1) {
-            allClassrooms[index] = classroom
-            saveAllClassrooms(allClassrooms)
+        logger.d("Updating classroom: ${classroom.name}")
+
+        val data = jsonWriterReader.readFromFile(fileName).toMutableMap()
+        val classroomsJson = data["classrooms"] as? String
+        val classroomsType = object : TypeToken<MutableList<Classroom>>() {}.type
+        val classrooms: MutableList<Classroom> = gson.fromJson(classroomsJson, classroomsType) ?: mutableListOf()
+
+        val index = classrooms.indexOfFirst { it.id == classroom.id }
+        if (index >= 0) {
+            classrooms[index] = classroom
+            data["classrooms"] = gson.toJson(classrooms)
+            jsonWriterReader.writeToFile(fileName, data)
+        } else {
+            logger.w("Classroom with id ${classroom.id} not found for updating!")
         }
     }
 
     override fun deleteClassroom(id: String) {
-        val classrooms = loadAllClassrooms().toMutableList()
+        logger.d("Deleting classroom with id: $id")
+
+        val data = jsonWriterReader.readFromFile(fileName).toMutableMap()
+        val classroomsJson = data["classrooms"] as? String
+        val classroomsType = object : TypeToken<MutableList<Classroom>>() {}.type
+        val classrooms: MutableList<Classroom> = gson.fromJson(classroomsJson, classroomsType) ?: mutableListOf()
+
         classrooms.removeAll { it.id == id }
-        saveAllClassrooms(classrooms)
-        deleteStudentImages(id)
+        data["classrooms"] = gson.toJson(classrooms)
+        jsonWriterReader.writeToFile(fileName, data)
     }
 
     override fun loadAllClassrooms(): List<Classroom> {
-        return if (jsonFile.exists()) {
-            val jsonString = jsonFile.readText()
-            jsonSerializer.decodeFromString(jsonString)
-        } else {
-            emptyList()
-        }
+        logger.d("Loading all classrooms")
+
+        val data = jsonWriterReader.readFromFile(fileName)
+        val classroomsJson = data["classrooms"] as? String
+        val classroomsType = object : TypeToken<List<Classroom>>() {}.type
+
+        return gson.fromJson(classroomsJson, classroomsType) ?: emptyList()
     }
 
     override fun saveAllClassrooms(classrooms: List<Classroom>) {
-        val jsonString = jsonSerializer.encodeToString(classrooms)
-        jsonFile.writeText(jsonString)
-    }
+        logger.d("Saving all classrooms")
 
-    private fun deleteStudentImages(classroomId: String){
-        val imagesDir = File(context.filesDir, "images/$classroomId")
-        if (imagesDir.exists()) {
-            imagesDir.deleteRecursively()
-        }
+        val data = jsonWriterReader.readFromFile(fileName).toMutableMap()
+        data["classrooms"] = gson.toJson(classrooms)
+
+        jsonWriterReader.writeToFile(fileName, data)
     }
 }
