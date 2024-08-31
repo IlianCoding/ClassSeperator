@@ -35,11 +35,12 @@ import com.app.assignmentandroidapplication.model.Classroom
 import com.app.assignmentandroidapplication.model.Desk
 import com.app.assignmentandroidapplication.model.Position
 import com.app.assignmentandroidapplication.model.configuration.layoutType.LayoutType
+import com.app.assignmentandroidapplication.ui.screen.BottomButtons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(classrooms: List<Classroom>) {
+fun HomeScreen(classrooms: List<Classroom>, onClassroomClick: (Classroom) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -61,7 +62,7 @@ fun HomeScreen(classrooms: List<Classroom>) {
                     .padding(it)
             ) {
                 items(classrooms) { classroom ->
-                    ClassroomCard(classroom)
+                    ClassroomCard(classroom, onClick = { onClassroomClick(classroom) })
                 }
             }
         }
@@ -69,32 +70,8 @@ fun HomeScreen(classrooms: List<Classroom>) {
 }
 
 @Composable
-fun BottomButtons() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(
-            onClick = { /* Handle Import */ },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Import Classrooms")
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            onClick = { /* Handle Add Classroom */ },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Add a Classroom")
-        }
-    }
-}
-
-@Composable
-fun ClassroomCard(classroom: Classroom) {
-    var imageId = when (classroom.layoutType) {
+fun ClassroomCard(classroom: Classroom, onClick: () -> Unit) {
+    val imageId = when (classroom.layoutType) {
         LayoutType.ROW_BY_ROW -> R.drawable.rowbyrow
         LayoutType.U_SHAPE -> R.drawable.ushape
         LayoutType.GROUPED_LAYOUT -> R.drawable.grouped
@@ -104,7 +81,7 @@ fun ClassroomCard(classroom: Classroom) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* Handle classroom click */ },
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 5.dp
         )
@@ -114,7 +91,7 @@ fun ClassroomCard(classroom: Classroom) {
         ) {
             Image(
                 painter = painterResource(id = imageId),
-                contentDescription = null,
+                contentDescription = "Current class layout",
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
@@ -123,78 +100,4 @@ fun ClassroomCard(classroom: Classroom) {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(
-        classrooms = listOf(
-            Classroom("1",
-                "Class 1",
-                LayoutType.ROW_BY_ROW,
-                listOf(
-                    Desk("1", Position(1,1), "student1"),
-                    Desk("2", Position(1,2), "student2"),
-                    Desk("3", Position(1,3), "student3")),
-                mutableListOf(
-                    "student1",
-                    "student2",
-                    "student3"
-                )
-            ),
-            Classroom("2",
-                "Class 2",
-                LayoutType.LAB_LAYOUT,
-                listOf(
-                    Desk("4", Position(1,1), "student4"),
-                    Desk("5", Position(1,2), "student5"),
-                    Desk("6", Position(1,3), "student6")),
-                mutableListOf(
-                    "student4",
-                    "student5",
-                    "student6"
-                )
-            ),
-            Classroom("3",
-                "Class 2",
-                LayoutType.U_SHAPE,
-                listOf(
-                    Desk("4", Position(1,1), "student4"),
-                    Desk("5", Position(1,2), "student5"),
-                    Desk("6", Position(1,3), "student6")),
-                mutableListOf(
-                    "student4",
-                    "student5",
-                    "student6"
-                )
-            ),
-            Classroom("4",
-                "Class 2",
-                LayoutType.GROUPED_LAYOUT,
-                listOf(
-                    Desk("4", Position(1,1), "student4"),
-                    Desk("5", Position(1,2), "student5"),
-                    Desk("6", Position(1,3), "student6")),
-                mutableListOf(
-                    "student4",
-                    "student5",
-                    "student6"
-                )
-            ),
-            Classroom("5",
-                "Class 2",
-                LayoutType.ROW_BY_ROW,
-                listOf(
-                    Desk("4", Position(1,1), "student4"),
-                    Desk("5", Position(1,2), "student5"),
-                    Desk("6", Position(1,3), "student6")),
-                mutableListOf(
-                    "student4",
-                    "student5",
-                    "student6"
-                )
-            )
-        )
-    )
 }
