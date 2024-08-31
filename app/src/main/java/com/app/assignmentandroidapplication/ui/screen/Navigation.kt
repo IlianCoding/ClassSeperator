@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.app.assignmentandroidapplication.ui.screen.classroomScreens.ClassroomDetailScreen
 import com.app.assignmentandroidapplication.ui.screen.startingScreens.HomeScreen
 import com.app.assignmentandroidapplication.ui.screen.startingScreens.LoadingScreen
 import com.app.assignmentandroidapplication.ui.state.CentralAppState

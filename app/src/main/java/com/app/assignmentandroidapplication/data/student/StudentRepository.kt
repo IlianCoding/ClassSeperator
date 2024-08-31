@@ -80,6 +80,13 @@ class StudentRepository @Inject constructor(
         jsonWriterReader.writeToFile(fileName, data)
     }
 
+    override fun getStudentsByIds(studentIds: List<String>): List<Student> {
+        logger.d("Loading students with ids: $studentIds")
+        val allStudents = getAllStudents()
+
+        return allStudents.filter { it.id in studentIds }
+    }
+
     override fun getAllStudents(): List<Student> {
         logger.d("Loading all students")
 

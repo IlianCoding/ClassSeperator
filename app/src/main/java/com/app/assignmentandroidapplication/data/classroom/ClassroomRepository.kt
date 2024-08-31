@@ -6,7 +6,6 @@ import com.app.assignmentandroidapplication.utils.JsonWriterReader
 import com.app.assignmentandroidapplication.utils.LogHelper
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 import javax.inject.Singleton
 
