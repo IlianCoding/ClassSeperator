@@ -60,7 +60,6 @@ fun ClassroomDetailScreen(
             )
         },
         bottomBar = {
-            BottomButtons()
         }
     ) {
         ClassroomDescription(classroom)
