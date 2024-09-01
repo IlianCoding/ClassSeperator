@@ -50,7 +50,7 @@ fun AppNavHost(
 
             when (val state = classroomState.value) {
                 is ClassroomState.LoadingClassroom -> LoadingScreen()
-                is ClassroomState.LoadedClassroom -> ClassroomDetailScreen(state.classroom, state.students)
+                is ClassroomState.LoadedClassroom -> ClassroomDetailScreen(navController, state.classroom, state.students)
                 is ClassroomState.ErrorClassroom -> ErrorScreen(errorMessage = state.errorMessage)
             }
         }
