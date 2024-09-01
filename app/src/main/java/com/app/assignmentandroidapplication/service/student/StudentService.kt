@@ -1,13 +1,13 @@
 package com.app.assignmentandroidapplication.service.student
 
-import com.app.assignmentandroidapplication.data.student.StudentRepository
+import com.app.assignmentandroidapplication.data.student.IStudentRepository
 import com.app.assignmentandroidapplication.model.Student
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class StudentService @Inject constructor(
-    private val studentRepository: StudentRepository
+    private val studentRepository: IStudentRepository
 ): IStudentService {
 
     override fun loadAllStudents(): List<Student> {

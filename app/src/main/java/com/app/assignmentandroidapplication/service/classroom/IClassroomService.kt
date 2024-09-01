@@ -9,5 +9,6 @@ interface IClassroomService {
     fun saveClassroom(classroom: Classroom)
     fun updateClassroom(classroom: Classroom)
     fun deleteClassroom(classroomId: String)
+    fun initializeData()
     suspend fun assigningStudents(classroom: Classroom)
 }

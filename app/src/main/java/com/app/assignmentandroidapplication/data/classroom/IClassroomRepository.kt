@@ -9,4 +9,5 @@ interface IClassroomRepository{
     fun deleteClassroom(id: String)
     fun loadAllClassrooms(): List<Classroom>
     fun saveAllClassrooms(classrooms: List<Classroom>)
+    fun initializeClassrooms()
 }

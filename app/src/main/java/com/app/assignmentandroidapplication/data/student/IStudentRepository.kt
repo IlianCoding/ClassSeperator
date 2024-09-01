@@ -12,4 +12,5 @@ interface IStudentRepository {
     fun getAllStudents(): List<Student>
     fun saveStudentImage(student: Student, image: Bitmap)
     fun loadStudentImage(student: Student): Bitmap?
+    fun initializeStudents()
 }

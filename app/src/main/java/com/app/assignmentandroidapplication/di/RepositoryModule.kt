@@ -5,8 +5,9 @@ import com.app.assignmentandroidapplication.data.classroom.ClassroomRepository
 import com.app.assignmentandroidapplication.data.classroom.IClassroomRepository
 import com.app.assignmentandroidapplication.data.student.IStudentRepository
 import com.app.assignmentandroidapplication.data.student.StudentRepository
-import com.app.assignmentandroidapplication.utils.JsonWriterReader
 import com.app.assignmentandroidapplication.utils.LogHelper
+import com.app.assignmentandroidapplication.utils.gson.GsonWriterReader
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,34 +22,34 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideJsonSerializer(): Json {
-        return Json { ignoreUnknownKeys = true }
+    fun provideJsonSerializer(): Gson {
+        return Gson()
     }
 
     @Provides
     @Singleton
     fun provideJsonWriterReader(
         @ApplicationContext context: Context,
-        jsonSerializer: Json
-    ): JsonWriterReader {
-        return JsonWriterReader(context, jsonSerializer)
+        gson: Gson
+    ): GsonWriterReader {
+        return GsonWriterReader(context, gson)
     }
 
     @Provides
     @Singleton
     fun provideClassroomRepository(
         @ApplicationContext context: Context,
-        jsonWriterReader: JsonWriterReader
+        gsonWriterReader: GsonWriterReader
     ): IClassroomRepository {
-        return ClassroomRepository(context, jsonWriterReader)
+        return ClassroomRepository(context, gsonWriterReader)
     }
 
     @Provides
     @Singleton
     fun provideStudentRepository(
         @ApplicationContext context: Context,
-        jsonWriterReader: JsonWriterReader
+        gsonWriterReader: GsonWriterReader
     ): IStudentRepository {
-        return StudentRepository(context, jsonWriterReader)
+        return StudentRepository(context, gsonWriterReader)
     }
 }

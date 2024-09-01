@@ -2,10 +2,10 @@ package com.app.assignmentandroidapplication.data.student
 
 import android.content.Context
 import com.app.assignmentandroidapplication.model.Student
-import com.app.assignmentandroidapplication.utils.JsonWriterReader
 import com.app.assignmentandroidapplication.utils.LogHelper
-import com.app.assignmentandroidapplication.utils.json.LocalDateDeserializer
-import com.app.assignmentandroidapplication.utils.json.LocalDateSerializer
+import com.app.assignmentandroidapplication.utils.gson.GsonWriterReader
+import com.app.assignmentandroidapplication.utils.gson.LocalDateDeserializer
+import com.app.assignmentandroidapplication.utils.gson.LocalDateSerializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import junit.framework.TestCase.assertEquals
@@ -32,7 +32,7 @@ class StudentRepositoryTest {
     val tempFolder = TemporaryFolder()
 
     @Mock
-    lateinit var mockJsonWriterReader: JsonWriterReader
+    lateinit var mockJsonWriterReader: GsonWriterReader
     @Mock
     lateinit var mockLogHelper: LogHelper
 
@@ -66,13 +66,13 @@ class StudentRepositoryTest {
         )
 
         val existingData = mutableMapOf<String, String>()
-        `when`(mockJsonWriterReader.readFromFile(tempFile.absolutePath)).thenReturn(existingData)
+        `when`(mockJsonWriterReader.readDataFromFile(tempFile.absolutePath)).thenReturn(existingData)
 
         studentRepository.saveStudent(student)
-        verify(mockJsonWriterReader).writeToFile(anyString(), anyMap())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), anyMap())
 
         val captor = argumentCaptor<Map<String, Any>>()
-        verify(mockJsonWriterReader).writeToFile(anyString(), captor.capture())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), captor.capture())
         val savedData = captor.firstValue
         assertTrue(savedData.containsKey("students"))
 
@@ -98,7 +98,7 @@ class StudentRepositoryTest {
         )
 
         val existingData = mutableMapOf("students" to gson.toJson(existingStudents))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(existingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(existingData)
 
         val loadedStudent1 = studentRepository.loadStudent("1")
         assertNotNull(loadedStudent1)
@@ -130,13 +130,13 @@ class StudentRepositoryTest {
         )
 
         val existingData = mutableMapOf("students" to gson.toJson(existingStudents))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(existingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(existingData)
 
         val updatedStudent = Student("1", "John", "Doe", "UK", "", LocalDate.of(1996, 12, 4), true)
         studentRepository.updateStudent(updatedStudent)
 
         val captor = argumentCaptor<Map<String, Any>>()
-        verify(mockJsonWriterReader).writeToFile(anyString(), captor.capture())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), captor.capture())
         val savedData = captor.firstValue
 
         val studentsJson = savedData["students"] as? String
@@ -160,12 +160,12 @@ class StudentRepositoryTest {
         )
 
         val existingData = mutableMapOf("students" to gson.toJson(existingStudents))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(existingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(existingData)
 
         studentRepository.deleteStudent("1")
 
         val captor = argumentCaptor<Map<String, Any>>()
-        verify(mockJsonWriterReader).writeToFile(anyString(), captor.capture())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), captor.capture())
         val savedData = captor.firstValue
 
         val savedStudentsJson = savedData["students"] as? String
@@ -182,7 +182,7 @@ class StudentRepositoryTest {
         )
 
         val existingData = mutableMapOf("students" to gson.toJson(existingStudents))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(existingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(existingData)
 
         val allStudents = studentRepository.getAllStudents()
 

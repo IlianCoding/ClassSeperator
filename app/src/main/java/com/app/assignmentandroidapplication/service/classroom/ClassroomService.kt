@@ -1,6 +1,8 @@
 package com.app.assignmentandroidapplication.service.classroom
 
 import com.app.assignmentandroidapplication.data.classroom.ClassroomRepository
+import com.app.assignmentandroidapplication.data.classroom.IClassroomRepository
+import com.app.assignmentandroidapplication.data.student.IStudentRepository
 import com.app.assignmentandroidapplication.data.student.StudentRepository
 import com.app.assignmentandroidapplication.model.Classroom
 import com.app.assignmentandroidapplication.model.Student
@@ -16,8 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ClassroomService @Inject constructor(
-    private val classroomRepository: ClassroomRepository,
-    private val studentRepository: StudentRepository
+    private val classroomRepository: IClassroomRepository,
+    private val studentRepository: IStudentRepository
 ): IClassroomService {
     private val logger: LogHelper = LogHelper(this::class.java.simpleName)
 
@@ -50,5 +52,11 @@ class ClassroomService @Inject constructor(
 
     override suspend fun assigningStudents(classroom: Classroom) {
         logger.d("Initialising the student assignment process")
+    }
+
+    override fun initializeData(){
+        logger.d("Initializing data")
+        classroomRepository.initializeClassrooms()
+        studentRepository.initializeStudents()
     }
 }

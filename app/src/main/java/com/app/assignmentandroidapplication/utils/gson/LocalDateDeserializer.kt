@@ -1,4 +1,4 @@
-package com.app.assignmentandroidapplication.utils.json
+package com.app.assignmentandroidapplication.utils.gson
 
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement

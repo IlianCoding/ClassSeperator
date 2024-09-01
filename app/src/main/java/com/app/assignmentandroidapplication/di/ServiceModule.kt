@@ -1,7 +1,7 @@
 package com.app.assignmentandroidapplication.di
 
-import com.app.assignmentandroidapplication.data.classroom.ClassroomRepository
-import com.app.assignmentandroidapplication.data.student.StudentRepository
+import com.app.assignmentandroidapplication.data.classroom.IClassroomRepository
+import com.app.assignmentandroidapplication.data.student.IStudentRepository
 import com.app.assignmentandroidapplication.service.classroom.ClassroomService
 import com.app.assignmentandroidapplication.service.classroom.IClassroomService
 import com.app.assignmentandroidapplication.service.student.IStudentService
@@ -19,8 +19,8 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideClassroomService(
-        classroomRepository: ClassroomRepository,
-        studentRepository: StudentRepository
+        classroomRepository: IClassroomRepository,
+        studentRepository: IStudentRepository
     ): IClassroomService{
         return ClassroomService(classroomRepository, studentRepository)
     }
@@ -28,7 +28,7 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideStudentService(
-        studentRepository: StudentRepository
+        studentRepository: IStudentRepository
     ): IStudentService {
         return StudentService(studentRepository)
     }

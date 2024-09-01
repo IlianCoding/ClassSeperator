@@ -1,13 +1,12 @@
-package com.app.assignmentandroidapplication.data.student
+package com.app.assignmentandroidapplication.data.classroom
 
 import android.content.Context
-import com.app.assignmentandroidapplication.data.classroom.ClassroomRepository
 import com.app.assignmentandroidapplication.model.Classroom
 import com.app.assignmentandroidapplication.model.Desk
 import com.app.assignmentandroidapplication.model.Position
 import com.app.assignmentandroidapplication.model.configuration.layoutType.LayoutType
-import com.app.assignmentandroidapplication.utils.JsonWriterReader
 import com.app.assignmentandroidapplication.utils.LogHelper
+import com.app.assignmentandroidapplication.utils.gson.GsonWriterReader
 import com.google.gson.Gson
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
@@ -32,7 +31,7 @@ class ClassroomRepositoryTest {
     val tempFolder = TemporaryFolder()
 
     @Mock
-    lateinit var mockJsonWriterReader: JsonWriterReader
+    lateinit var mockJsonWriterReader: GsonWriterReader
     @Mock
     lateinit var mockLogHelper: LogHelper
 
@@ -68,13 +67,13 @@ class ClassroomRepositoryTest {
         )
 
         val existingData = mutableMapOf<String, String>()
-        `when`(mockJsonWriterReader.readFromFile(tempFile.absolutePath)).thenReturn(existingData)
+        `when`(mockJsonWriterReader.readDataFromFile(tempFile.absolutePath)).thenReturn(existingData)
 
         classroomRepository.saveClassroom(classroom)
-        verify(mockJsonWriterReader).writeToFile(anyString(), anyMap())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), anyMap())
 
         val captor = argumentCaptor<Map<String, Any>>()
-        verify(mockJsonWriterReader).writeToFile(anyString(), captor.capture())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), captor.capture())
         val savedData = captor.firstValue
         assert(savedData.containsKey("classrooms"))
 
@@ -137,7 +136,7 @@ class ClassroomRepositoryTest {
         )
 
         val exisitingData = mutableMapOf("classrooms" to gson.toJson(classrooms))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(exisitingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(exisitingData)
 
         val loadedClassroom1 = classroomRepository.loadClassroom("classroom1")
         assertNotNull(loadedClassroom1)
@@ -204,13 +203,13 @@ class ClassroomRepositoryTest {
         )
 
         val exisitingData = mutableMapOf("classrooms" to gson.toJson(classrooms))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(exisitingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(exisitingData)
 
         val updatedClassroom = Classroom("classroom1", "Math Class", LayoutType.GROUPED_LAYOUT, desks2, studentIds1)
         classroomRepository.updateClassroom(updatedClassroom)
 
         val captor = argumentCaptor<Map<String, Any>>()
-        verify(mockJsonWriterReader).writeToFile(anyString(), captor.capture())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), captor.capture())
         val savedData = captor.firstValue
 
         val classroomsJson = savedData["classrooms"] as? String
@@ -270,12 +269,12 @@ class ClassroomRepositoryTest {
         )
 
         val exisitingData = mutableMapOf("classrooms" to gson.toJson(classrooms))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(exisitingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(exisitingData)
 
         classroomRepository.deleteClassroom("classroom1")
 
         val captor = argumentCaptor<Map<String, Any>>()
-        verify(mockJsonWriterReader).writeToFile(anyString(), captor.capture())
+        verify(mockJsonWriterReader).writeDataToFile(anyString(), captor.capture())
         val savedData = captor.firstValue
 
         val classroomsJson = savedData["classrooms"] as? String
@@ -330,7 +329,7 @@ class ClassroomRepositoryTest {
         )
 
         val exisitingData = mutableMapOf("classrooms" to gson.toJson(classrooms))
-        `when`(mockJsonWriterReader.readFromFile(anyString())).thenReturn(exisitingData)
+        `when`(mockJsonWriterReader.readDataFromFile(anyString())).thenReturn(exisitingData)
 
         val allClassrooms = classroomRepository.loadAllClassrooms()
 
