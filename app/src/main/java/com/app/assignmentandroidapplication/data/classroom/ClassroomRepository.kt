@@ -102,30 +102,148 @@ class ClassroomRepository @Inject constructor(
 
         val classrooms = mutableListOf<Classroom>()
 
-        // Generate 6 classrooms
-        for (i in 1..6) {
-            val desks = mutableListOf<Desk>()
-            val studentIds = mutableListOf<String>()
-
-            for (j in 1..5) {
-                val desk = Desk(
+        val classroom1 = Classroom(
+            id = UUID.randomUUID().toString(),
+            name = "INF101 - A",
+            layoutType = LayoutType.ROW_BY_ROW,
+            desks = mutableListOf(
+                Desk(
                     id = UUID.randomUUID().toString(),
-                    position = Position(row = j, column = 1),
-                    assignedStudentId = if (j <= 3) UUID.randomUUID().toString() else null
-                )
-                desk.assignedStudentId?.let { studentIds.add(it) }
-                desks.add(desk)
-            }
-
-            val classroom = Classroom(
-                id = UUID.randomUUID().toString(),
-                name = "Classroom $i",
-                layoutType = LayoutType.ROW_BY_ROW,
-                desks = desks,
-                studentIds = studentIds.toMutableList()
+                    position = Position(row = 1, column = 1),
+                    assignedStudentId = "student1"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 2),
+                    assignedStudentId = "student2"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 3),
+                    assignedStudentId = "student3"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 2, column = 1),
+                    assignedStudentId = null
+                ),
+            ),
+            studentIds = mutableListOf(
+                "student1",
+                "student2",
+                "student3"
             )
-            classrooms.add(classroom)
-        }
+        )
+
+        val classroom2 = Classroom(
+            id = UUID.randomUUID().toString(),
+            name = "INF101 - B",
+            layoutType = LayoutType.ROW_BY_ROW,
+            desks = mutableListOf(
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 1),
+                    assignedStudentId = "student4"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 2),
+                    assignedStudentId = "student5"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 3),
+                    assignedStudentId = "student6"
+                ),
+            ),
+            studentIds = mutableListOf(
+                "student4",
+                "student5",
+                "student6",
+                "student7"
+            )
+        )
+
+        val classroom3 = Classroom(
+            id = UUID.randomUUID().toString(),
+            name = "INF203 - A",
+            layoutType = LayoutType.ROW_BY_ROW,
+            desks = mutableListOf(
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 1),
+                    assignedStudentId = "student8"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 2),
+                    assignedStudentId = "student9"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 3),
+                    assignedStudentId = "student10"
+                )
+            ),
+            studentIds = mutableListOf(
+                "student8",
+                "student9",
+                "student10",
+                "student15",
+                "student16",
+                "student17",
+                "student18"
+            )
+        )
+
+        val classroom4 = Classroom(
+            id = UUID.randomUUID().toString(),
+            name = "INF304",
+            layoutType = LayoutType.ROW_BY_ROW,
+            desks = mutableListOf(
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 1),
+                    assignedStudentId = "student11"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 2),
+                    assignedStudentId = "student12"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 1, column = 3),
+                    assignedStudentId = "student13"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 2, column = 1),
+                    assignedStudentId = "student14"
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 2, column = 2),
+                    assignedStudentId = null
+                ),
+                Desk(
+                    id = UUID.randomUUID().toString(),
+                    position = Position(row = 2, column = 3),
+                    assignedStudentId = null
+                ),
+            ),
+            studentIds = mutableListOf(
+                "student11",
+                "student12",
+                "student13",
+                "student14",
+            )
+        )
+
+        classrooms.add(classroom1)
+        classrooms.add(classroom2)
+        classrooms.add(classroom3)
+        classrooms.add(classroom4)
 
         val data = gsonWriterReader.readDataFromFile(fileName).toMutableMap()
         data["classrooms"] = Gson().toJson(classrooms)

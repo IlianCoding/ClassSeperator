@@ -22,7 +22,7 @@ class StudentRepository @Inject constructor(
     private val logger: LogHelper = LogHelper("StudentRepository")
 ) : IStudentRepository {
     private val fileName = "classroomSeperator.json"
-    private val gson = GsonBuilder()
+    private val gson: Gson = GsonBuilder()
         .registerTypeAdapter(LocalDate::class.java, LocalDateSerializer())
         .registerTypeAdapter(LocalDate::class.java, LocalDateDeserializer())
         .create()
@@ -113,7 +113,7 @@ class StudentRepository @Inject constructor(
         val students = mutableListOf<Student>()
         for (i in 1..18) {
             val student = Student(
-                id = UUID.randomUUID().toString(),
+                id = "student$i",
                 firstName = "FirstName$i",
                 lastName = "LastName$i",
                 nationality = "Nationality$i",
@@ -125,7 +125,7 @@ class StudentRepository @Inject constructor(
         }
 
         val data = gsonWriterReader.readDataFromFile(fileName).toMutableMap()
-        data["students"] = Gson().toJson(students)
+        data["students"] = gson.toJson(students)
         gsonWriterReader.writeDataToFile(fileName, data)
     }
 }

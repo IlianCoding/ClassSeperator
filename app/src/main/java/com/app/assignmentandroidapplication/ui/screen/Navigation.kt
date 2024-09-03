@@ -32,15 +32,10 @@ fun AppNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        // Home Screen
         composable("home") {
-            // Access the HomeViewModel
             val homeViewModel: HomeViewModel = hiltViewModel()
-
-            // Observe the state from HomeViewModel
             val homeState by homeViewModel.state.collectAsState()
 
-            // Handle different states in the UI
             when (val state = homeState) {
                 is CentralAppState.Loading -> LoadingScreen()
                 is CentralAppState.Loaded -> HomeScreen(
@@ -53,26 +48,19 @@ fun AppNavHost(
             }
         }
 
-        // Classroom Detail Screen
         composable(
             "classroom_detail/{classroomId}",
             arguments = listOf(navArgument("classroomId") { type = NavType.StringType }) // Updated to StringType to match classroomId type
         ) { backStackEntry ->
-            // Access the ClassroomDetailViewModel
             val classroomDetailViewModel: ClassroomDetailViewModel = hiltViewModel()
-
-            // Get the classroomId from the arguments
             val classroomId = backStackEntry.arguments?.getString("classroomId") ?: return@composable
 
-            // Trigger loading of classroom details
             LaunchedEffect(classroomId) {
                 classroomDetailViewModel.loadClassroomDetails(classroomId)
             }
 
-            // Observe the state from ClassroomDetailViewModel
             val classroomState by classroomDetailViewModel.state.collectAsState()
 
-            // Handle different states in the UI
             when (val state = classroomState) {
                 is ClassroomState.LoadingClassroom -> LoadingScreen()
                 is ClassroomState.LoadedClassroom -> ClassroomDetailScreen(navController, state.classroom, state.students)

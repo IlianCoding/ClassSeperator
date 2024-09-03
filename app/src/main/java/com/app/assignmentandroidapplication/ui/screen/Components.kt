@@ -1,82 +1,126 @@
 package com.app.assignmentandroidapplication.ui.screen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.app.assignmentandroidapplication.R
 
 @Composable
 fun BottomButtons() {
-    val importIcon = painterResource(id = R.drawable.ic_import)
-    val addIcon = painterResource(id = R.drawable.ic_add)
-
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        contentAlignment = Alignment.BottomEnd
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(bottom = 16.dp),
-            horizontalAlignment = Alignment.End
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        FloatingActionButton(
+            onClick = { /*TODO*/ },
+            containerColor = Color.Transparent,
+            elevation = FloatingActionButtonDefaults.elevation(0.dp)
         ) {
-            IconButton(
-                onClick = { /* Handle Import click */ },
-                modifier = Modifier
-                    .size(48.dp)
-                    .shadow(4.dp, shape = CircleShape, clip = false)
-                    .border(
-                        width = 2.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = CircleShape
-                    )
-                    .background(MaterialTheme.colorScheme.onSurface, shape = CircleShape)
-            ) {
-                Icon(
-                    painter = importIcon,
-                    contentDescription = "Import Classrooms",
-                    tint = Color.White
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            IconButton(
-                onClick = { /* Handle Add Classroom click */ },
-                modifier = Modifier
-                    .size(48.dp)
-                    .shadow(4.dp, shape = CircleShape, clip = false)
-                    .border(
-                        width = 2.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = CircleShape
-                    )
-                    .background(MaterialTheme.colorScheme.onSurface, shape = CircleShape)
-            ) {
-                Icon(
-                    painter = addIcon,
-                    contentDescription = "Add a Classroom",
-                    tint = Color.White
-                )
-            }
+            Icon(
+                painter = painterResource(id = R.drawable.ic_import),
+                contentDescription = "Import",
+                modifier = Modifier.size(28.dp)
+            )
         }
+        FloatingActionButton(
+            onClick = { /*TODO*/ },
+            elevation = FloatingActionButtonDefaults.elevation(0.dp),
+            shape = RoundedCornerShape(32.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_add),
+                contentDescription = "Import",
+                modifier = Modifier.size(48.dp)
+            )
+        }
+        FloatingActionButton(
+            onClick = { /*TODO*/ },
+            containerColor = Color.Transparent,
+            elevation = FloatingActionButtonDefaults.elevation(0.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = "Import",
+                modifier = Modifier.size(28.dp)
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(page: String){
+    if (page == "home"){
+        TopAppBar(
+            title = {
+                Text(
+                    page,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            },
+            actions = {
+                FloatingActionButton(
+                    onClick = { /*TODO*/ },
+                    containerColor = Color.Transparent,
+                    elevation = FloatingActionButtonDefaults.elevation(0.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Help",
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.smallTopAppBarColors(MaterialTheme.colorScheme.background)
+        )
+    } else {
+        TopAppBar(
+            title = {
+                Text(
+                    page,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            },
+            actions = {
+                FloatingActionButton(
+                    onClick = { /*TODO*/ },
+                    containerColor = Color.Transparent,
+                    elevation = FloatingActionButtonDefaults.elevation(0.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Help",
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.smallTopAppBarColors(MaterialTheme.colorScheme.background)
+        )
     }
 }
